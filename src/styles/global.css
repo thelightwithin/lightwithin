@@ -67,7 +67,10 @@ section{position:relative}
   transition-delay:var(--d,0s)}
 .fx-caps.in{opacity:1;letter-spacing:var(--track)}
 /* parallax layers driven by JS */
-.plx{will-change:transform}
+.plx{transform:translateZ(0)}
+@media(prefers-reduced-motion:no-preference) and (min-width:861px){
+  .plx{will-change:transform}
+}
 /* text swap fade for carousels */
 .swap{transition:opacity .4s ease,transform .4s ease}
 .swap.out{opacity:0;transform:translateY(10px)}

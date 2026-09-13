@@ -3,8 +3,7 @@
  *   1. starfields        — populates .stars containers
  *   2. scroll reveals    — .fx / .fx-img / .fx-caps via IntersectionObserver
  *   3. parallax layers   — .plx elements with data-plx factors
- *   4. inertial scroll   — wheel-only smooth scroll; touch/keyboard stay native
- *   5. anchor glide      — same-page #links ride the same easing
+ *   4. anchor glide      — same-page #links use native smooth scrolling
  * Everything respects prefers-reduced-motion.
  */
 
@@ -57,7 +56,7 @@ function parallax() {
     const r = p.parent.getBoundingClientRect();
     if (r.bottom < -80 || r.top > vh + 80) return;
     const center = r.top + r.height / 2 - vh / 2; /* 0 when section centered */
-    p.el.style.transform = 'translateY(' + (center * -p.f).toFixed(1) + 'px)';
+    p.el.style.transform = 'translate3d(0,' + (center * -p.f).toFixed(1) + 'px,0)';
   });
 }
 function onScrollParallax() {
@@ -69,33 +68,9 @@ if (!reduceMotion && plxEls.length) {
   parallax();
 }
 
-/* ---------- inertial smooth scroll (wheel only; touch + keyboard stay native) ---------- */
-const smoothOn = !reduceMotion && !coarse;
-let target = window.scrollY, current = window.scrollY, animating = false;
 function maxScroll() { return document.documentElement.scrollHeight - window.innerHeight; }
-function loop() {
-  current += (target - current) * 0.085;
-  if (Math.abs(target - current) < 0.5) {
-    current = target; animating = false;
-    window.scrollTo(0, Math.round(current));
-    return;
-  }
-  window.scrollTo(0, Math.round(current));
-  requestAnimationFrame(loop);
-}
-function kick() { if (!animating) { animating = true; requestAnimationFrame(loop); } }
-if (smoothOn) {
-  window.addEventListener('wheel', function (e) {
-    if (e.ctrlKey) return; /* keep pinch-zoom native */
-    e.preventDefault();
-    target = Math.max(0, Math.min(maxScroll(), target + e.deltaY));
-    kick();
-  }, { passive: false });
-  window.addEventListener('scroll', function () {
-    if (!animating) { target = current = window.scrollY; } /* stay in sync with native scrolls */
-  }, { passive: true });
-}
-/* anchor links glide through the same easing (same-page #anchors only) */
+
+/* ---------- same-page anchor links ---------- */
 document.querySelectorAll('a[href^="#"]').forEach(function (a) {
   a.addEventListener('click', function (e) {
     const id = a.getAttribute('href');
@@ -104,8 +79,7 @@ document.querySelectorAll('a[href^="#"]').forEach(function (a) {
     e.preventDefault();
     let y = id === '#top' ? 0 : dest.getBoundingClientRect().top + window.scrollY;
     y = Math.max(0, Math.min(maxScroll(), y));
-    if (smoothOn) { target = y; kick(); }
-    else if (reduceMotion) { window.scrollTo(0, y); }
+    if (reduceMotion) { window.scrollTo(0, y); }
     else { window.scrollTo({ top: y, behavior: 'smooth' }); }
   });
 });
