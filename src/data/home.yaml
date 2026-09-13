@@ -1,0 +1,23 @@
+# ─── Home page copy ──────────────────────────────────────────────────
+# Fields marked (html) allow a little inline markup: <br>, <em>, <u>.
+
+hero:
+  headline: "Your Potential Unfolds When You<br>Align With Your <em>Soul's Wisdom</em>" # (html)
+  tagline: "Through guidance from the Akashic Records and energy work, reconnect with your inner wisdom and grow across every dimension of your life."
+  ctaLabel: "Explore services"
+  ctaHref: /services/
+
+statement:
+  text: "Where you remember who you really are, and your <u>divine purpose</u>." # (html)
+
+statement2:
+  text: "You are ready for <u>transformation</u>." # (html)
+
+about:
+  titleIt: "Meet the"
+  titleRm: "Founder"
+  paragraphs:
+    - "Hello, I'm Sarah. I support multidimensional growth through soul-centred guidance, self-connection practices, and energy work — offering sessions in English and Mandarin Chinese."
+    - "Each offering is a different doorway into the same purpose: helping you reconnect with your inner wisdom and grow emotionally, mentally, energetically, and spiritually."
+  ctaLabel: "Meet us"
+  ctaHref: /about/

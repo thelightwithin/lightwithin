@@ -1,0 +1,81 @@
+# ─── Global site settings ────────────────────────────────────────────
+# Edit this file to change branding, navigation, socials, and the
+# signup form endpoint. No code changes needed.
+
+title: "The Light Within — Akashic Records Guidance & Energy Work"
+description: "Through guidance from the Akashic Records and energy work, reconnect with your inner wisdom and grow across every dimension of your life."
+
+# The wordmark shown in the header, footer and decorative marks.
+brand: "The Light Within"
+
+# Copyright line in the bottom bar.
+legal: "© 2026 The Light Within"
+
+# ─── Signup form (Formspree) ─────────────────────────────────────────
+# 1. Create a free form at https://formspree.io
+# 2. Paste the endpoint URL here, e.g. "https://formspree.io/f/xxxxyyyy"
+# While this is empty the form politely tells visitors signup isn't
+# open yet instead of pretending to send.
+formEndpoint: ""
+
+# ─── Customer reviews ────────────────────────────────────────────────
+# Reviews are submitted through the form on /contact/#review and arrive
+# by email (via the endpoint below). To publish one, add a markdown
+# file to src/content/testimonials/ — the rotating Reviews band
+# shows it on the next deploy.
+# Optional separate Formspree endpoint for reviews; when empty, the
+# signup formEndpoint above is used for reviews too.
+reviewEndpoint: ""
+# The "Leave a review" link shown under the reviews rotator.
+reviewCta:
+  label: "Leave a review"
+  href: /contact/#review
+
+# Where "Book a session" style buttons lead.
+bookingLink: "/contact/"
+bookingLabel: "Book a session"
+
+# ─── Header navigation ───────────────────────────────────────────────
+nav:
+  - label: Home
+    href: /
+  - label: About
+    href: /about/
+  - label: Services
+    href: /services/
+  - label: Contact
+    href: /contact/
+  # Resources is offline for now. To bring it back: uncomment the two
+  # entries below and rename src/pages/_resources.astro -> resources.astro
+  # - label: Resources
+  #   href: /resources/
+
+# ─── Footer navigation ───────────────────────────────────────────────
+footerNav:
+  - label: Services
+    href: /services/
+  - label: About
+    href: /about/
+  - label: Contact
+    href: /contact/
+  # - label: Resources
+  #   href: /resources/
+
+# ─── Social links ────────────────────────────────────────────────────
+# Clicking a social icon pops up its QR code instead of navigating away.
+# "icon" selects the built-in glyph (xiaohongshu | instagram | youtube).
+# "qr" is the QR code image shown in the popup — drop a new image into
+# public/images/social/ and point qr at it to change one.
+socials:
+  - label: RED (Xiaohongshu)
+    icon: xiaohongshu
+    qr: /images/social/xiaohongshu-qr.png
+    handle: "spiritual_sarah"
+  - label: Instagram
+    icon: instagram
+    qr: /images/social/instagram-qr.jpg
+    handle: "@spiritual.sarah"
+  - label: YouTube
+    icon: youtube
+    qr: /images/social/youtube-qr.jpg
+    handle: ""

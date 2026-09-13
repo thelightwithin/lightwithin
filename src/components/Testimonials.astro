@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import site from '../data/site.yaml';
+import { withBase } from '../utils/url';
+
+interface Props {
+  /** The big vertical title next to the rotating quotes. */
+  bandTitle?: string;
+}
+const { bandTitle = 'Reviews' } = Astro.props;
+
+const testimonials = (await getCollection('testimonials')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const items = testimonials.map((t) => ({
+  label: t.data.label,
+  quote: t.data.quote,
+  cite: t.data.cite,
+}));
+const first = items[0];
+---
+
+<section class="testimonials" id="voices">
+  <div class="testi-wrap">
+    <div class="testi-photo grain fx-img" role="img" aria-label="Photo placeholder — replace with your photo">
+      <div class="show-img m1"></div>
+    </div>
+    <div class="testi-title fx plx" data-plx="-0.05" aria-hidden="true">{bandTitle}</div>
+    <div class="testi-col">
+      <div class="swap" id="t-swap">
+        <span class="caps testi-label fx-caps" id="t-label">{first.label}</span>
+        <p class="testi-quote fx" style="--d:.15s" id="t-quote">{first.quote}</p>
+        <span class="caps testi-cite fx" style="--d:.28s" id="t-cite">{first.cite}</span>
+      </div>
+      <div class="arrows fx" style="--d:.3s">
+        <button type="button" id="t-prev" aria-label="Previous review">&#10229;</button>
+        <button type="button" id="t-next" aria-label="Next review">&#10230;</button>
+      </div>
+      {
+        site.reviewCta && (
+          <div class="testi-more fx" style="--d:.4s">
+            <a class="btn" href={withBase(site.reviewCta.href)}>{site.reviewCta.label}</a>
+          </div>
+        )
+      }
+      <div class="testi-book fx" style="--d:.5s">
+        <a class="btn" href={withBase(site.bookingLink)}>{site.bookingLabel}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="testimonials-data" set:html={JSON.stringify(items)} />
+
+<script>
+  const dataEl = document.getElementById('testimonials-data');
+  const tSwap = document.getElementById('t-swap');
+  const tLabel = document.getElementById('t-label');
+  const tQuote = document.getElementById('t-quote');
+  const tCite = document.getElementById('t-cite');
+  const prev = document.getElementById('t-prev');
+  const next = document.getElementById('t-next');
+
+  if (dataEl && tSwap && tLabel && tQuote && tCite && prev && next) {
+    const T = JSON.parse(dataEl.textContent || '[]');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let ti = 0;
+
+    function renderT() {
+      tSwap!.classList.add('out');
+      setTimeout(
+        () => {
+          tLabel!.textContent = T[ti].label;
+          tQuote!.textContent = T[ti].quote;
+          tCite!.textContent = T[ti].cite;
+          tSwap!.classList.remove('out');
+        },
+        reduceMotion ? 0 : 340
+      );
+    }
+
+    prev.addEventListener('click', () => {
+      ti = (ti - 1 + T.length) % T.length;
+      renderT();
+    });
+    next.addEventListener('click', () => {
+      ti = (ti + 1) % T.length;
+      renderT();
+    });
+  }
+</script>

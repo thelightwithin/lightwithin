@@ -1,0 +1,27 @@
+# ─── Contact page copy ───────────────────────────────────────────────
+
+pageHero:
+  title: "Let&#39;s Begin, <em>Together</em>" # (html)
+  tagline: "Reach out with questions, or book a session below."
+
+# Address used by the mailto buttons below.
+email: "hello@example.com"
+
+# Stacked buttons under the hero tagline. Entries with `subject` become
+# mailto links to the email above; entries with `href` link directly
+# ("#review" jumps to the review form further down the page).
+heroButtons:
+  - label: "Book a Session"
+    subject: "Booking request"
+  - label: "Inquiries"
+    subject: "Inquiry"
+  - label: "Leave a Review"
+    href: "#review"
+
+freebie:
+  title: "While You&#39;re Here" # (html)
+  text: "Join the list and receive our free guide."
+
+review:
+  title: "Kind Words, <em>Welcome</em>" # (html)
+  text: "Worked with us? We would love to hear how it landed. Your words help others find their way here — and with your OK, we may feature them among our reviews."

@@ -1,0 +1,65 @@
+---
+import site from '../data/site.yaml';
+import { withBase } from '../utils/url';
+---
+
+<header>
+  <a class="mark" href={withBase('/')}>{site.brand}</a>
+  <nav>
+    <ul class="caps">
+      {
+        site.nav.map((item: { label: string; href: string }) => (
+          <li>
+            <a href={withBase(item.href)}>{item.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div class="header-actions">
+    <a class="btn btn-solid" href={withBase(site.bookingLink)}>{site.bookingLabel}</a>
+    <button
+      class="menu-toggle"
+      id="menu-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <div class="stars" aria-hidden="true"></div>
+    <div class="mobile-menu-inner">
+      <ul>
+        {
+          site.nav.map((item: { label: string; href: string }) => (
+            <li>
+              <a href={withBase(item.href)}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn" href={withBase(site.bookingLink)}>{site.bookingLabel}</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && menu) {
+    const setOpen = (open: boolean) => {
+      document.body.classList.toggle('menu-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+    toggle.addEventListener('click', () => setOpen(!document.body.classList.contains('menu-open')));
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setOpen(false);
+    });
+  }
+</script>

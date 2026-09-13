@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SignupForm from '../components/SignupForm.astro';
+import CloudsCta from '../components/CloudsCta.astro';
+import site from '../data/site.yaml';
+import resources from '../data/resources.yaml';
+---
+
+<BaseLayout title={`Resources — ${site.title}`}>
+  <PageHero {...resources.pageHero} />
+  <SignupForm title={resources.freebie.title} text={resources.freebie.text} />
+  <CloudsCta {...resources.cta} />
+</BaseLayout>

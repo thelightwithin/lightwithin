@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Statement from '../components/Statement.astro';
+import ServicesGrid from '../components/ServicesGrid.astro';
+import AboutSplit from '../components/AboutSplit.astro';
+import Testimonials from '../components/Testimonials.astro';
+import home from '../data/home.yaml';
+---
+
+<BaseLayout>
+  <Hero {...home.hero} />
+  <Statement text={home.statement.text} />
+  <ServicesGrid />
+  <Statement text={home.statement2.text} />
+  <AboutSplit {...home.about} />
+  <Testimonials />
+</BaseLayout>

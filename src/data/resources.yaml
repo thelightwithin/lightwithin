@@ -1,0 +1,15 @@
+# ─── Resources page copy ─────────────────────────────────────────────
+
+pageHero:
+  label: "Resources"
+  title: "For Your <em>Journey</em>" # (html)
+  tagline: "Guides and gentle starting points for working with your inner wisdom."
+
+freebie:
+  title: "Your Guide to the<br><em>Akashic Records</em>" # (html)
+  text: "Join the list and receive our free introduction — what the records are, how a reading feels, and how to prepare for your first session."
+
+cta:
+  text: "When you are ready to go deeper, we are here."
+  ctaLabel: "Book a session"
+  ctaHref: /contact/

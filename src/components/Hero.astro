@@ -1,0 +1,26 @@
+---
+import { withBase } from '../utils/url';
+
+interface Props {
+  headline: string; // may contain <br>, <em>
+  tagline: string;
+  ctaLabel: string;
+  ctaHref: string;
+}
+const { headline, tagline, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="hero grain">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="sky plx" data-plx="0.10"></div>
+    <div class="ridge plx" data-plx="0.16"></div>
+    <div class="flat plx" data-plx="0.05"></div>
+    <div class="figure plx" data-plx="0.05"></div>
+    <div class="haze"></div>
+  </div>
+  <div class="hero-inner plx" data-plx="-0.14">
+    <h1 class="rise" set:html={headline} />
+    <p class="rise">{tagline}</p>
+    <div class="rise"><a class="btn" href={withBase(ctaHref)}>{ctaLabel}</a></div>
+  </div>
+</section>

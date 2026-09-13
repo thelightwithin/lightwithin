@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import ReviewForm from '../components/ReviewForm.astro';
+import SignupForm from '../components/SignupForm.astro';
+import site from '../data/site.yaml';
+import contact from '../data/contact.yaml';
+
+interface HeroButton {
+  label: string;
+  subject?: string;
+  href?: string;
+}
+const buttons = ((contact.heroButtons || []) as HeroButton[]).map((b) => ({
+  label: b.label,
+  href: b.subject
+    ? `mailto:${contact.email}?subject=${encodeURIComponent(b.subject)}`
+    : (b.href ?? '#'),
+}));
+---
+
+<BaseLayout title={`Contact — ${site.title}`}>
+  <PageHero {...contact.pageHero}>
+    <div class="hero-ctas rise">
+      {buttons.map((b) => <a class="btn" href={b.href}>{b.label}</a>)}
+    </div>
+  </PageHero>
+  <SignupForm title={contact.freebie.title} text={contact.freebie.text} />
+  <ReviewForm title={contact.review.title} text={contact.review.text} />
+</BaseLayout>

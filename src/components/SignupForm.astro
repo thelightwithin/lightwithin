@@ -1,0 +1,81 @@
+---
+import site from '../data/site.yaml';
+
+interface Props {
+  title: string; // may contain <br>, &amp;
+  text: string;
+}
+const { title, text } = Astro.props;
+---
+
+<section class="freebie">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="freebie-inner">
+    <div>
+      <h2 class="fx" set:html={title} />
+      <p class="fx" style="--d:.15s">{text}</p>
+    </div>
+    <form id="signup" novalidate class="fx" style="--d:.3s" data-endpoint={site.formEndpoint}>
+      <div>
+        <label for="f-name">Name</label>
+        <input id="f-name" type="text" name="name" autocomplete="name" required />
+      </div>
+      <div>
+        <label for="f-email">Email</label>
+        <input id="f-email" type="email" name="email" autocomplete="email" required />
+      </div>
+      <button class="btn" type="submit">Send</button>
+      <p class="status" id="f-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('signup') as HTMLFormElement | null;
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const st = document.getElementById('f-status')!;
+      const nameInput = document.getElementById('f-name') as HTMLInputElement;
+      const emailInput = document.getElementById('f-email') as HTMLInputElement;
+      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      if (!name || email.indexOf('@') === -1) {
+        st.textContent = 'Add your name and a valid email.';
+        return;
+      }
+
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        st.textContent = 'Signups open soon — please check back.';
+        return;
+      }
+
+      st.textContent = 'Sending…';
+      button.disabled = true;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ name, email }),
+        });
+        if (res.ok) {
+          st.textContent = 'Sent — check your inbox.';
+          form.reset();
+        } else {
+          const data = await res.json().catch(() => null);
+          st.textContent =
+            (data && data.errors && data.errors[0] && data.errors[0].message) ||
+            'Something went wrong — please try again.';
+        }
+      } catch {
+        st.textContent = 'Network error — please try again.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

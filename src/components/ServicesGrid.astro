@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import { withBase } from '../utils/url';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section class="services-grid" id="services">
+  <div class="services-inner">
+    {
+      services.map((s, i) => (
+        <article class="service-card fx" style={`--d:${(i * 0.08).toFixed(2)}s`}>
+          <a class="card-tile grain" href={withBase(`/services/#${s.id}`)} aria-label={s.data.title}>
+            <div class={`show-img ${s.data.mood}`} />
+          </a>
+          <h3>
+            <a href={withBase(`/services/#${s.id}`)}>{s.data.title}</a>
+          </h3>
+          <p>{s.data.summary}</p>
+          {
+            s.data.comingSoon ? (
+              <span class="caps more soon">Coming soon</span>
+            ) : (
+              <a class="caps more" href={withBase(`/services/#${s.id}`)}>
+                Discover more <span class="arrow" aria-hidden="true">&#10230;</span>
+              </a>
+            )
+          }
+        </article>
+      ))
+    }
+  </div>
+</section>

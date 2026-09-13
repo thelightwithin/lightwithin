@@ -1,0 +1,13 @@
+---
+interface Props {
+  letter?: string;
+}
+const { letter = 'N' } = Astro.props;
+---
+
+<section class="sunset" aria-hidden="true">
+  <div class="scene plx" data-plx="0.5">
+    <div class="cloud-layer"></div>
+  </div>
+  <div class="monogram fx-img plx" data-plx="-0.06">{letter}</div>
+</section>

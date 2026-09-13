@@ -1,0 +1,135 @@
+---
+import { getCollection } from 'astro:content';
+import site from '../data/site.yaml';
+
+interface Props {
+  title: string; // may contain <em>
+  text: string;
+}
+const { title, text } = Astro.props;
+
+const serviceEntries = (await getCollection('services')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+const services = [...serviceEntries.map((o) => o.data.title), 'Something else'];
+const endpoint = site.reviewEndpoint || site.formEndpoint || '';
+---
+
+<section class="review-band" id="review">
+  <div class="review-inner">
+    <div>
+      <h2 class="fx" set:html={title} />
+      <p class="fx" style="--d:.15s">{text}</p>
+    </div>
+    <form id="review-form" novalidate class="fx" style="--d:.3s" data-endpoint={endpoint}>
+      <div>
+        <label for="r-name">Name</label>
+        <input id="r-name" type="text" name="name" autocomplete="name" required />
+      </div>
+      <div>
+        <label for="r-location">Location</label>
+        <input id="r-location" type="text" name="location" autocomplete="address-level2" />
+      </div>
+      <div>
+        <label for="r-service">Session type</label>
+        <select id="r-service" name="service">
+          {services.map((s) => <option value={s}>{s}</option>)}
+        </select>
+      </div>
+      <div>
+        <span class="rate-label" id="r-rating-label">Rating</span>
+        <div class="rate" role="radiogroup" aria-labelledby="r-rating-label">
+          {
+            [1, 2, 3, 4, 5].map((n) => (
+              <label class="rate-star filled">
+                <input type="radio" name="rating" value={n} checked={n === 5} />
+                <span aria-hidden="true">★</span>
+                <span class="sr-only">{n === 1 ? '1 star' : `${n} stars`}</span>
+              </label>
+            ))
+          }
+        </div>
+      </div>
+      <div>
+        <label for="r-message">Your words</label>
+        <textarea id="r-message" name="message" rows="4" required></textarea>
+      </div>
+      <label class="consent">
+        <input type="checkbox" name="mayPublish" checked />
+        <span>You may share my words on this site.</span>
+      </label>
+      <button class="btn" type="submit">Send review</button>
+      <p class="status" id="r-status" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('review-form') as HTMLFormElement | null;
+
+  if (form) {
+    const stars = [...form.querySelectorAll('.rate-star')] as HTMLElement[];
+    const paint = () => {
+      const checked = form.querySelector('input[name="rating"]:checked') as HTMLInputElement | null;
+      const val = checked ? parseInt(checked.value, 10) : 0;
+      stars.forEach((s, i) => s.classList.toggle('filled', i < val));
+    };
+    stars.forEach((s) => s.querySelector('input')!.addEventListener('change', paint));
+    paint();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const st = document.getElementById('r-status')!;
+      const name = (document.getElementById('r-name') as HTMLInputElement).value.trim();
+      const location = (document.getElementById('r-location') as HTMLInputElement).value.trim();
+      const message = (document.getElementById('r-message') as HTMLTextAreaElement).value.trim();
+      const service = (document.getElementById('r-service') as HTMLSelectElement).value;
+      const checked = form.querySelector('input[name="rating"]:checked') as HTMLInputElement | null;
+      const consent = form.querySelector('input[name="mayPublish"]') as HTMLInputElement;
+      const button = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      if (!name || !message) {
+        st.textContent = 'Add your name and a few words.';
+        return;
+      }
+
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        st.textContent = 'Reviews open soon — please check back.';
+        return;
+      }
+
+      st.textContent = 'Sending…';
+      button.disabled = true;
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            form: 'review',
+            name,
+            location,
+            service,
+            rating: checked ? checked.value : '',
+            message,
+            mayPublish: consent.checked,
+          }),
+        });
+        if (res.ok) {
+          st.textContent = 'Thank you — your kind words mean the world.';
+          form.reset();
+          paint();
+        } else {
+          const data = await res.json().catch(() => null);
+          st.textContent =
+            (data && data.errors && data.errors[0] && data.errors[0].message) ||
+            'Something went wrong — please try again.';
+        }
+      } catch {
+        st.textContent = 'Network error — please try again.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

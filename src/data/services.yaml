@@ -1,0 +1,13 @@
+# ─── Services page copy ──────────────────────────────────────────────
+# The services themselves live in src/content/services/*.md —
+# add a new markdown file there to add a service.
+
+pageHero:
+  label: "Our services"
+  title: "Different Doorways,<br>One Leads to <em>Your Own Wisdom</em>" # (html)
+  tagline: "Whether you are seeking clarity, connection, release, or an exploration of who you really are, each service opens a path to meet yourself more fully."
+
+cta:
+  text: "Unsure which service is yours? Start with a free discovery call — we will find it together."
+  ctaLabel: "Free Discovery Call"
+  ctaHref: "https://calendly.com/sarahshenbl/free-discovery-call"

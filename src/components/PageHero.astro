@@ -1,0 +1,18 @@
+---
+interface Props {
+  label?: string;
+  title: string; // may contain <em>
+  tagline?: string;
+}
+const { label, title, tagline } = Astro.props;
+---
+
+<section class="page-hero grain">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="page-hero-inner">
+    {label && <span class="caps rise">{label}</span>}
+    <h1 class="rise" set:html={title} />
+    {tagline && <p class="rise">{tagline}</p>}
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,26 @@
+---
+import { withBase } from '../utils/url';
+
+interface Props {
+  text?: string;
+  ctaLabel: string;
+  ctaHref: string;
+}
+const { text, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="cta-clouds">
+  <div class="scene plx" data-plx="0.5">
+    <div class="cloud-layer"></div>
+  </div>
+  <div class="cta-inner">
+    {text && <p class="fx">{text}</p>}
+    <a
+      class="btn fx"
+      style="--d:.2s"
+      href={withBase(ctaHref)}
+      target={ctaHref.startsWith('http') ? '_blank' : undefined}
+      rel={ctaHref.startsWith('http') ? 'noopener' : undefined}>{ctaLabel}</a
+    >
+  </div>
+</section>

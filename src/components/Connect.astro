@@ -1,0 +1,117 @@
+---
+import site from '../data/site.yaml';
+import { withBase } from '../utils/url';
+
+interface Social {
+  label: string;
+  icon: 'xiaohongshu' | 'instagram' | 'youtube';
+  qr: string;
+  handle?: string;
+}
+const socials = (site.socials || []) as Social[];
+---
+
+<section class="connect" id="connect">
+  <div class="cloud-layer" aria-hidden="true"></div>
+  <h2 class="fx">Let's Connect</h2>
+  <div class="connect-row caps fx" style="--d:.12s">
+    <div class="socials" aria-label="Social links">
+      {
+        socials.map((s) => (
+          <button
+            type="button"
+            class="social-btn"
+            data-qr={withBase(s.qr)}
+            data-label={s.label}
+            data-handle={s.handle || ''}
+            aria-label={`Show ${s.label} QR code`}
+            aria-haspopup="dialog"
+          >
+            {s.icon === 'xiaohongshu' && (
+              <svg class="xhs-icon" viewBox="0 0 30 30" aria-hidden="true">
+                <rect x="1" y="1" width="28" height="28" rx="8" style="fill:#FF2442;stroke:none" />
+                <text
+                  x="15"
+                  y="19.5"
+                  text-anchor="middle"
+                  textLength="22"
+                  lengthAdjust="spacingAndGlyphs"
+                  font-family="'PingFang SC','Heiti SC','Microsoft YaHei',sans-serif"
+                  font-size="11"
+                  font-weight="700"
+                  style="fill:#fff;stroke:none">小红书</text>
+              </svg>
+            )}
+            {s.icon === 'instagram' && (
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke-width="1.5" />
+                <circle cx="12" cy="12" r="4.6" stroke-width="1.5" />
+                <circle class="fill" cx="17.6" cy="6.4" r="1.15" />
+              </svg>
+            )}
+            {s.icon === 'youtube' && (
+              <svg viewBox="0 0 28 20" aria-hidden="true">
+                <rect x="1" y="1" width="26" height="18" rx="6" stroke-width="1.5" />
+                <path class="fill" d="M11.5 6.3v7.4l6.4-3.7z" />
+              </svg>
+            )}
+          </button>
+        ))
+      }
+    </div>
+    <ul class="connect-nav">
+      {
+        site.footerNav.map((item: { label: string; href: string }) => (
+          <li>
+            <a href={withBase(item.href)}>{item.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<div class="qr-modal" id="qr-modal" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title" hidden>
+  <div class="qr-modal-backdrop" data-close="1"></div>
+  <div class="qr-modal-card">
+    <button type="button" class="qr-modal-close" data-close="1" aria-label="Close">&times;</button>
+    <img id="qr-modal-img" src="" alt="" />
+    <p class="caps" id="qr-modal-title">&nbsp;</p>
+    <p class="qr-modal-handle" id="qr-modal-handle"></p>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('qr-modal');
+  const img = document.getElementById('qr-modal-img') as HTMLImageElement | null;
+  const title = document.getElementById('qr-modal-title');
+  const handleEl = document.getElementById('qr-modal-handle');
+  let lastFocused: HTMLElement | null = null;
+
+  function openModal(btn: HTMLElement) {
+    if (!modal || !img || !title || !handleEl) return;
+    const label = btn.dataset.label || '';
+    img.src = btn.dataset.qr || '';
+    img.alt = `${label} QR code`;
+    title.textContent = label;
+    handleEl.textContent = btn.dataset.handle || '';
+    lastFocused = document.activeElement as HTMLElement;
+    modal.hidden = false;
+    document.body.classList.add('qr-modal-open');
+    (modal.querySelector('.qr-modal-close') as HTMLElement)?.focus();
+  }
+  function closeModal() {
+    if (!modal) return;
+    modal.hidden = true;
+    document.body.classList.remove('qr-modal-open');
+    lastFocused?.focus();
+  }
+
+  document.querySelectorAll('.social-btn').forEach((btn) => {
+    btn.addEventListener('click', () => openModal(btn as HTMLElement));
+  });
+  modal?.querySelectorAll('[data-close]').forEach((el) => el.addEventListener('click', closeModal));
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal && !modal.hidden) closeModal();
+  });
+</script>

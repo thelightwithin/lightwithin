@@ -1,0 +1,25 @@
+# ─── About page copy ─────────────────────────────────────────────────
+
+pageHero:
+  label: "Our story"
+  title: "The People Behind<br><em>The Light Within</em>" # (html)
+  tagline: "Today, this work begins with me. Our vision is to grow the team into a soul-centred collective of practitioners dedicated to empowering multi-dimensional people growth — bridging soul wisdom and the authentic expression of the highest potential."
+
+about:
+  titleIt: "Meet the"
+  titleRm: "Founder"
+  paragraphs:
+    - "Hello, I'm Sarah. I support multidimensional growth through soul-centred guidance, self-connection practices, and energy work. I am fluent in Mandarin Chinese and English, offering sessions in both languages to clients from diverse cultural backgrounds."
+    - "Before stepping into spiritual service, I spent nearly two decades in the high-tech industry as a Human Resources Partner and Leader. Collaborating with executives, leaders, and teams across cultures gave me a grounded understanding of human potential — and of how families, relationships, cultures, and organisations influence the choices we make."
+    - "As life unfolded, the call toward who I really am grew ever louder — to support people in growing multi-dimensionally. Led by my Higher Self and Guides, I walked that journey and became a Certified Akashic Records Guide in 2026. Along the way, I have also become a Vipassana meditator, a Level II Usui Reiki practitioner, and an energy practitioner working with my Phoenix Guide."
+    - "At the heart of my work is a simple belief: wisdom isn't given — it is revealed from within. I hold a clear, compassionate space in which you can explore what is ready to unfold, while your free will and personal sovereignty remain at the centre."
+  ctaLabel: "Work with me"
+  ctaHref: /contact/
+
+statement:
+  text: "We believe wisdom isn't given — it is revealed from <u>within</u>." # (html)
+
+cta:
+  text: "Curious how it works for you? Come say hello — no readiness required."
+  ctaLabel: "Free Discovery Call"
+  ctaHref: "https://calendly.com/sarahshenbl/free-discovery-call"

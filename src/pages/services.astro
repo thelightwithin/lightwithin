@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CloudsCta from '../components/CloudsCta.astro';
+import site from '../data/site.yaml';
+import data from '../data/services.yaml';
+import { withBase } from '../utils/url';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  services.map(async (entry) => ({ entry, Content: (await render(entry)).Content }))
+);
+---
+
+<BaseLayout title={`Services — ${site.title}`}>
+  <PageHero {...data.pageHero} />
+  {
+    rendered.map(({ entry, Content }, i) => (
+      <section class:list={['offer-band', { alt: i % 2 === 1 }]} id={entry.id}>
+        <div class="offer-detail">
+          <div class="offer-tile grain fx-img">
+            <div class={`show-img ${entry.data.mood}`} />
+          </div>
+          <div class="offer-copy">
+            <span class="caps fx-caps">
+              {entry.data.kicker ?? `Service ${String(i + 1).padStart(2, '0')}`}
+            </span>
+            <h2 class="fx" style="--d:.1s">
+              {entry.data.title}
+            </h2>
+            <div class="fx" style="--d:.2s">
+              <Content />
+            </div>
+            {entry.data.sessionNote && (
+              <span class="caps session-note fx" style="--d:.3s">
+                {entry.data.sessionNote}
+              </span>
+            )}
+            {entry.data.bookLabel && (
+              <a
+                class="btn fx"
+                style="--d:.4s"
+                href={entry.data.bookHref ?? withBase(site.bookingLink)}
+                target={entry.data.bookHref ? '_blank' : undefined}
+                rel={entry.data.bookHref ? 'noopener' : undefined}
+              >
+                {entry.data.bookLabel}
+              </a>
+            )}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+  <CloudsCta {...data.cta} />
+</BaseLayout>

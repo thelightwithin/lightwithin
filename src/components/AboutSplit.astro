@@ -1,0 +1,29 @@
+---
+import { withBase } from '../utils/url';
+
+interface Props {
+  titleIt: string;
+  titleRm: string;
+  paragraphs: string[];
+  ctaLabel: string;
+  ctaHref: string;
+}
+const { titleIt, titleRm, paragraphs, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="about" id="about">
+  <div class="about-left">
+    <h2>
+      <span class="it fx" style="--d:.1s">{titleIt}</span>
+      <span class="rm fx" style="--d:.24s">{titleRm}</span>
+    </h2>
+    {paragraphs.map((p, i) => <p class="fx" style={`--d:${(0.36 + i * 0.1).toFixed(2)}s`}>{p}</p>)}
+    <a
+      class="btn fx"
+      style={`--d:${(0.46 + paragraphs.length * 0.1).toFixed(2)}s`}
+      href={withBase(ctaHref)}>{ctaLabel}</a
+    >
+  </div>
+  <div class="about-right grain fx-img" role="img" aria-label="Portrait placeholder — replace with your photo">
+  </div>
+</section>

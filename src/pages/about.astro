@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import AboutSplit from '../components/AboutSplit.astro';
+import Statement from '../components/Statement.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CloudsCta from '../components/CloudsCta.astro';
+import site from '../data/site.yaml';
+import about from '../data/about.yaml';
+---
+
+<BaseLayout title={`About — ${site.title}`}>
+  <PageHero {...about.pageHero} />
+  <AboutSplit {...about.about} />
+  <Statement text={about.statement.text} />
+  <Testimonials />
+  <CloudsCta {...about.cta} />
+</BaseLayout>
