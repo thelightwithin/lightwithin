@@ -154,7 +154,7 @@ body.menu-open{overflow:hidden}
 .hero-bg{position:absolute;inset:-12% 0 0 0;z-index:0}
 .hero-photo-layer{position:absolute;inset:0;overflow:hidden}
 .hero-video{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;object-position:50% 45%;
-  filter:saturate(.95) contrast(1.03) brightness(.82)}
+  pointer-events:none;filter:saturate(.95) contrast(1.03) brightness(.82)}
 .hero-bg .haze{position:absolute;inset:0;
   background:
     radial-gradient(56% 46% at 50% 42%, rgba(19,16,21,.06) 0%, rgba(19,16,21,.34) 68%, rgba(12,9,13,.68) 100%),

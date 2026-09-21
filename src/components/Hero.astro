@@ -19,7 +19,9 @@ const { headline, tagline, ctaLabel, ctaHref } = Astro.props;
         muted
         loop
         playsinline
+        webkit-playsinline
         preload="auto"
+        disablepictureinpicture
         poster={withBase('/images/hero/soul-wisdom-hero.jpg')}
       >
         <source src={withBase('/images/hero/soul-wisdom-hero.mp4')} type="video/mp4" />
@@ -33,3 +35,27 @@ const { headline, tagline, ctaLabel, ctaHref } = Astro.props;
     <div class="rise"><a class="btn" href={withBase(ctaHref)}>{ctaLabel}</a></div>
   </div>
 </section>
+
+<script>
+  const startHeroVideo = () => {
+    const video = document.querySelector<HTMLVideoElement>('.hero-video');
+    if (!video) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+
+    const playPromise = video.play();
+    if (playPromise) {
+      playPromise.catch(() => {
+        document.documentElement.classList.add('hero-video-blocked');
+      });
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', startHeroVideo, { once: true });
+  window.addEventListener('pageshow', startHeroVideo);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) startHeroVideo();
+  });
+</script>
