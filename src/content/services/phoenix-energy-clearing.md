@@ -2,6 +2,7 @@
 title: Phoenix Energy Clearing
 summary: A deep energetic reset. Release what has burned itself out, clear what has gone stagnant, and rise lighter.
 mood: m1
+image: /images/services/phoenix-energy-clearing.png
 order: 4
 kicker: For release
 sessionNote: 25 minutes · online

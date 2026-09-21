@@ -25,6 +25,6 @@ const buttons = ((contact.heroButtons || []) as HeroButton[]).map((b) => ({
       {buttons.map((b) => <a class="btn" href={b.href}>{b.label}</a>)}
     </div>
   </PageHero>
-  <SignupForm title={contact.freebie.title} text={contact.freebie.text} />
+  <SignupForm {...contact.freebie} />
   <ReviewForm title={contact.review.title} text={contact.review.text} />
 </BaseLayout>

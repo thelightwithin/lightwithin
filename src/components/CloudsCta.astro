@@ -3,15 +3,22 @@ import { withBase } from '../utils/url';
 
 interface Props {
   text?: string;
+  image?: string;
   ctaLabel: string;
   ctaHref: string;
 }
-const { text, ctaLabel, ctaHref } = Astro.props;
+const { text, image, ctaLabel, ctaHref } = Astro.props;
 ---
 
-<section class="cta-clouds">
+<section class:list={['cta-clouds', { 'has-photo': image }]}>
   <div class="scene plx" data-plx="0.5">
-    <div class="cloud-layer"></div>
+    {
+      image ? (
+        <img class="cta-photo" src={withBase(image)} alt="" loading="lazy" decoding="async" />
+      ) : (
+        <div class="cloud-layer"></div>
+      )
+    }
   </div>
   <div class="cta-inner">
     {text && <p class="fx">{text}</p>}

@@ -2,6 +2,7 @@
 title: Birth Chart Reading
 summary: Your birth chart, read as a map of this lifetime — timing, patterns, and purpose. Coming soon.
 mood: m2
+image: /images/services/birth-chart-reading.png
 order: 5
 kicker: For self-understanding
 sessionNote: Coming soon

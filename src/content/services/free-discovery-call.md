@@ -2,6 +2,7 @@
 title: Free Discovery Call
 summary: A gentle first conversation. Share where you are, ask anything, and feel whether this work is right for you — no pressure, ever.
 mood: m0
+image: /images/services/free-discovery-call.png
 order: 1
 kicker: Start here
 sessionNote: 30 minutes · online · free

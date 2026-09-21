@@ -11,7 +11,13 @@ const services = (await getCollection('services')).sort((a, b) => a.data.order -
       services.map((s, i) => (
         <article class="service-card fx" style={`--d:${(i * 0.08).toFixed(2)}s`}>
           <a class="card-tile grain" href={withBase(`/services/#${s.id}`)} aria-label={s.data.title}>
-            <div class={`show-img ${s.data.mood}`} />
+            {
+              s.data.image ? (
+                <img class="service-img" src={withBase(s.data.image)} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <div class={`show-img ${s.data.mood}`} />
+              )
+            }
           </a>
           <h3>
             <a href={withBase(`/services/#${s.id}`)}>{s.data.title}</a>

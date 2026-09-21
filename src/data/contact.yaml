@@ -3,6 +3,7 @@
 pageHero:
   title: "Let&#39;s Begin, <em>Together</em>" # (html)
   tagline: "Reach out with questions, or book a session below."
+  image: /images/contact/while-youre-here.jpg
 
 # Address used by the mailto buttons below.
 email: "hello@example.com"
@@ -21,6 +22,7 @@ heroButtons:
 freebie:
   title: "While You&#39;re Here" # (html)
   text: "Join the list and receive our free guide."
+  image: /images/contact/contact-hero.jpg
 
 review:
   title: "Kind Words, <em>Welcome</em>" # (html)

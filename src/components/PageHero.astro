@@ -1,13 +1,18 @@
 ---
+import { withBase } from '../utils/url';
+
 interface Props {
   label?: string;
   title: string; // may contain <em>
   tagline?: string;
+  image?: string;
+  tone?: string;
 }
-const { label, title, tagline } = Astro.props;
+const { label, title, tagline, image, tone } = Astro.props;
 ---
 
-<section class="page-hero grain">
+<section class:list={['page-hero grain', tone && `tone-${tone}`, { 'has-photo': image }]}>
+  {image && <img class="page-hero-photo" src={withBase(image)} alt="" loading="eager" decoding="async" />}
   <div class="stars" aria-hidden="true"></div>
   <div class="page-hero-inner">
     {label && <span class="caps rise">{label}</span>}

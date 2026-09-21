@@ -24,6 +24,7 @@ const { titleIt, titleRm, paragraphs, ctaLabel, ctaHref } = Astro.props;
       href={withBase(ctaHref)}>{ctaLabel}</a
     >
   </div>
-  <div class="about-right grain fx-img" role="img" aria-label="Portrait placeholder — replace with your photo">
+  <div class="about-right grain fx-img">
+    <img src={withBase('/images/about/founder-portrait.png')} alt="Portrait of Sarah, founder of The Light Within" loading="lazy" decoding="async" />
   </div>
 </section>

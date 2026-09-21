@@ -2,6 +2,7 @@
 title: Higher Self Connection
 summary: Guided journeys that strengthen the line between you and your higher self, so guidance can flow in everyday life.
 mood: m1
+image: /images/services/higher-self-connection.png
 order: 3
 kicker: For connection
 sessionNote: 45 minutes · online · 45 days of ongoing support

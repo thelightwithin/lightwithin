@@ -20,7 +20,13 @@ const rendered = await Promise.all(
       <section class:list={['offer-band', { alt: i % 2 === 1 }]} id={entry.id}>
         <div class="offer-detail">
           <div class="offer-tile grain fx-img">
-            <div class={`show-img ${entry.data.mood}`} />
+            {
+              entry.data.image ? (
+                <img class="service-img" src={withBase(entry.data.image)} alt="" loading="lazy" decoding="async" />
+              ) : (
+                <div class={`show-img ${entry.data.mood}`} />
+              )
+            }
           </div>
           <div class="offer-copy">
             <span class="caps fx-caps">

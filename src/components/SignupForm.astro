@@ -1,14 +1,17 @@
 ---
 import site from '../data/site.yaml';
+import { withBase } from '../utils/url';
 
 interface Props {
   title: string; // may contain <br>, &amp;
   text: string;
+  image?: string;
 }
-const { title, text } = Astro.props;
+const { title, text, image } = Astro.props;
 ---
 
-<section class="freebie">
+<section class:list={['freebie', { 'has-photo': image }]}>
+  {image && <img class="freebie-photo" src={withBase(image)} alt="" loading="lazy" decoding="async" />}
   <div class="stars" aria-hidden="true"></div>
   <div class="freebie-inner">
     <div>

@@ -2,6 +2,7 @@
 title: Akashic Records Reading
 summary: Open the book of your soul. A guided reading that surfaces the beliefs, patterns, gifts, and past lifetimes your records hold for you.
 mood: m2
+image: /images/services/akashic-records-reading.png
 order: 2
 kicker: For clarity, growth and more
 sessionNote: Total 80 minutes (with a 50-minute reading) · online · recorded

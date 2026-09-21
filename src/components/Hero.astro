@@ -12,10 +12,19 @@ const { headline, tagline, ctaLabel, ctaHref } = Astro.props;
 
 <section class="hero grain">
   <div class="hero-bg" aria-hidden="true">
-    <div class="sky plx" data-plx="0.10"></div>
-    <div class="ridge plx" data-plx="0.16"></div>
-    <div class="flat plx" data-plx="0.05"></div>
-    <div class="figure plx" data-plx="0.05"></div>
+    <div class="hero-photo-layer plx" data-plx="0.05">
+      <video
+        class="hero-video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        poster={withBase('/images/hero/soul-wisdom-hero.jpg')}
+      >
+        <source src={withBase('/images/hero/soul-wisdom-hero.mp4')} type="video/mp4" />
+      </video>
+    </div>
     <div class="haze"></div>
   </div>
   <div class="hero-inner plx" data-plx="-0.14">

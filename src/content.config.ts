@@ -11,6 +11,7 @@ const services = defineCollection({
     title: z.string(),
     summary: z.string(),
     mood: z.enum(['m0', 'm1', 'm2']),
+    image: z.string().optional(),
     order: z.number(),
     // caps line above the title on the detail band, e.g. "Start here"
     kicker: z.string().optional(),
