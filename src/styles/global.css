@@ -153,7 +153,7 @@ body.menu-open{overflow:hidden}
   padding:7rem clamp(1.25rem,5vw,4rem) 5rem}
 .hero-bg{position:absolute;inset:-12% 0 0 0;z-index:0}
 .hero-photo-layer{position:absolute;inset:0;overflow:hidden}
-.hero-video{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;object-position:50% 45%;
+.hero-motion{position:absolute;inset:-3%;width:106%;height:106%;object-fit:cover;object-position:50% 45%;
   pointer-events:none;filter:saturate(.95) contrast(1.03) brightness(.82)}
 .hero-bg .haze{position:absolute;inset:0;
   background:
@@ -164,7 +164,7 @@ body.menu-open{overflow:hidden}
 .hero h1 em{font-style:italic;font-weight:400;font-size:1.06em}
 .hero p{color:var(--cream-bright);max-width:44ch;margin:1.7rem auto 2.6rem}
 @media(max-width:760px){
-  .hero-video{object-position:50% 50%}
+  .hero-motion{object-position:50% 50%}
 }
 
 /* ================= PAGE HERO (sub-pages) ================= */
