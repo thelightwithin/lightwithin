@@ -33,7 +33,7 @@ reviewCta:
   href: /contact/#review
 
 # Where "Book a session" style buttons lead.
-bookingLink: "/contact/"
+bookingLink: "https://calendly.com/sarahshenbl/free-discovery-call"
 bookingLabel: "Book a session"
 
 # ─── Header navigation ───────────────────────────────────────────────
