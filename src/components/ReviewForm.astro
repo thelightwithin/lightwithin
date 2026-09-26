@@ -12,6 +12,23 @@ const serviceEntries = (await getCollection('services')).sort(
   (a, b) => a.data.order - b.data.order
 );
 const services = [...serviceEntries.map((o) => o.data.title), 'Something else'];
+const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
+const countries = `
+  AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL
+  BM BN BO BQ BR BS BT BV BW BY BZ CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV
+  CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD
+  GE GF GG GH GI GL GM GN GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM
+  IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK
+  LR LS LT LU LV LY MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW
+  MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR
+  PS PT PW PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS
+  ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY
+  UZ VA VC VE VG VI VN VU WF WS YE YT ZA ZM ZW
+`
+  .trim()
+  .split(/\s+/)
+  .map((code) => ({ code, name: regionNames.of(code) || code }))
+  .sort((a, b) => a.name.localeCompare(b.name));
 const endpoint = site.reviewEndpoint || site.formEndpoint || '';
 const accessKey = site.reviewAccessKey || '';
 ---
@@ -35,8 +52,11 @@ const accessKey = site.reviewAccessKey || '';
         <input id="r-name" type="text" name="name" autocomplete="name" required />
       </div>
       <div>
-        <label for="r-location">Location</label>
-        <input id="r-location" type="text" name="location" autocomplete="address-level2" />
+        <label for="r-location">Country or region</label>
+        <select id="r-location" name="location" autocomplete="country-name">
+          <option value="" selected>Select a country or region (optional)</option>
+          {countries.map((country) => <option value={country.name}>{country.name}</option>)}
+        </select>
       </div>
       <div>
         <label for="r-service">Session type</label>
@@ -89,7 +109,7 @@ const accessKey = site.reviewAccessKey || '';
       e.preventDefault();
       const st = document.getElementById('r-status')!;
       const name = (document.getElementById('r-name') as HTMLInputElement).value.trim();
-      const location = (document.getElementById('r-location') as HTMLInputElement).value.trim();
+      const location = (document.getElementById('r-location') as HTMLSelectElement).value;
       const message = (document.getElementById('r-message') as HTMLTextAreaElement).value.trim();
       const service = (document.getElementById('r-service') as HTMLSelectElement).value;
       const checked = form.querySelector('input[name="rating"]:checked') as HTMLInputElement | null;
