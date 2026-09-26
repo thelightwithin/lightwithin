@@ -6,7 +6,7 @@ pageHero:
   image: /images/contact/while-youre-here.jpg
 
 # Address used by the mailto buttons below.
-email: "hello@example.com"
+email: "info@thelightwithin.io"
 
 # Stacked buttons under the hero tagline. Entries with `subject` become
 # mailto links to the email above; entries with `href` link directly
