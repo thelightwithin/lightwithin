@@ -23,9 +23,10 @@ formEndpoint: ""
 # by email (via the endpoint below). To publish one, add a markdown
 # file to src/content/testimonials/ — the rotating Reviews band
 # shows it on the next deploy.
-# Optional separate Formspree endpoint for reviews; when empty, the
-# signup formEndpoint above is used for reviews too.
-reviewEndpoint: ""
+# Web3Forms sends each submission to the account email and stores it in
+# the Web3Forms dashboard for moderation.
+reviewEndpoint: "https://api.web3forms.com/submit"
+reviewAccessKey: "b98427fc-a2f4-443b-a851-012586b76d39"
 # The "Leave a review" link shown under the reviews rotator.
 reviewCta:
   label: "Leave a review"

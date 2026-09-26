@@ -13,6 +13,7 @@ const serviceEntries = (await getCollection('services')).sort(
 );
 const services = [...serviceEntries.map((o) => o.data.title), 'Something else'];
 const endpoint = site.reviewEndpoint || site.formEndpoint || '';
+const accessKey = site.reviewAccessKey || '';
 ---
 
 <section class="review-band" id="review">
@@ -21,7 +22,14 @@ const endpoint = site.reviewEndpoint || site.formEndpoint || '';
       <h2 class="fx" set:html={title} />
       <p class="fx" style="--d:.15s">{text}</p>
     </div>
-    <form id="review-form" novalidate class="fx" style="--d:.3s" data-endpoint={endpoint}>
+    <form
+      id="review-form"
+      novalidate
+      class="fx"
+      style="--d:.3s"
+      data-endpoint={endpoint}
+      data-access-key={accessKey}
+    >
       <div>
         <label for="r-name">Name</label>
         <input id="r-name" type="text" name="name" autocomplete="name" required />
@@ -94,7 +102,8 @@ const endpoint = site.reviewEndpoint || site.formEndpoint || '';
       }
 
       const endpoint = form.dataset.endpoint;
-      if (!endpoint) {
+      const accessKey = form.dataset.accessKey;
+      if (!endpoint || !accessKey) {
         st.textContent = 'Reviews open soon — please check back.';
         return;
       }
@@ -106,6 +115,9 @@ const endpoint = site.reviewEndpoint || site.formEndpoint || '';
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify({
+            access_key: accessKey,
+            subject: 'New review for The Light Within',
+            from_name: 'The Light Within website',
             form: 'review',
             name,
             location,
@@ -122,7 +134,8 @@ const endpoint = site.reviewEndpoint || site.formEndpoint || '';
         } else {
           const data = await res.json().catch(() => null);
           st.textContent =
-            (data && data.errors && data.errors[0] && data.errors[0].message) ||
+            (data && data.message) ||
+            (data && data.body && data.body.message) ||
             'Something went wrong — please try again.';
         }
       } catch {

@@ -32,10 +32,14 @@ const first = items[0];
         <p class="testi-quote fx" style="--d:.15s" id="t-quote">{first.quote}</p>
         <span class="caps testi-cite fx" style="--d:.28s" id="t-cite">{first.cite}</span>
       </div>
-      <div class="arrows fx" style="--d:.3s">
-        <button type="button" id="t-prev" aria-label="Previous review">&#10229;</button>
-        <button type="button" id="t-next" aria-label="Next review">&#10230;</button>
-      </div>
+      {
+        items.length > 1 && (
+          <div class="arrows fx" style="--d:.3s">
+            <button type="button" id="t-prev" aria-label="Previous review">&#10229;</button>
+            <button type="button" id="t-next" aria-label="Next review">&#10230;</button>
+          </div>
+        )
+      }
       {
         site.reviewCta && (
           <div class="testi-more fx" style="--d:.4s">
