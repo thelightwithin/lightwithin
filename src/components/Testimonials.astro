@@ -17,7 +17,6 @@ const items = testimonials.map((t) => ({
   quote: t.data.quote,
   cite: t.data.cite,
 }));
-const first = items[0];
 ---
 
 <section class="testimonials" id="voices">
@@ -27,19 +26,24 @@ const first = items[0];
     </div>
     <div class="testi-title fx plx" data-plx="-0.05" aria-hidden="true">{bandTitle}</div>
     <div class="testi-col">
-      <div class="swap" id="t-swap">
-        <span class="caps testi-label fx-caps" id="t-label">{first.label}</span>
-        <p class="testi-quote fx" style="--d:.15s" id="t-quote">{first.quote}</p>
-        <span class="caps testi-cite fx" style="--d:.28s" id="t-cite">{first.cite}</span>
+      <div class="testi-viewport" data-review-carousel>
+        <div class="testi-track">
+          {
+            items.map((item, index) => (
+              <article class="testi-slide" aria-hidden={index === 0 ? 'false' : 'true'}>
+                <span class="caps testi-label">{item.label}</span>
+                <p class="testi-quote">{item.quote}</p>
+                <span class="caps testi-cite">{item.cite}</span>
+              </article>
+            ))
+          }
+        </div>
       </div>
-      {
-        items.length > 1 && (
-          <div class="arrows fx" style="--d:.3s">
-            <button type="button" id="t-prev" aria-label="Previous review">&#10229;</button>
-            <button type="button" id="t-next" aria-label="Next review">&#10230;</button>
-          </div>
-        )
-      }
+      <div class="arrows testi-nav fx" style="--d:.3s" aria-label="Review navigation">
+        <button type="button" data-review-prev aria-label="Previous review" disabled={items.length < 2}>←</button>
+        <span class="caps testi-count" aria-live="polite">{items.length ? `1 / ${items.length}` : '0 / 0'}</span>
+        <button type="button" data-review-next aria-label="Next review" disabled={items.length < 2}>→</button>
+      </div>
       {
         site.reviewCta && (
           <div class="testi-more fx" style="--d:.4s">
@@ -54,42 +58,29 @@ const first = items[0];
   </div>
 </section>
 
-<script type="application/json" id="testimonials-data" set:html={JSON.stringify(items)} />
-
 <script>
-  const dataEl = document.getElementById('testimonials-data');
-  const tSwap = document.getElementById('t-swap');
-  const tLabel = document.getElementById('t-label');
-  const tQuote = document.getElementById('t-quote');
-  const tCite = document.getElementById('t-cite');
-  const prev = document.getElementById('t-prev');
-  const next = document.getElementById('t-next');
+  document.querySelectorAll<HTMLElement>('[data-review-carousel]').forEach((viewport) => {
+    const track = viewport.querySelector<HTMLElement>('.testi-track');
+    const slides = Array.from(viewport.querySelectorAll<HTMLElement>('.testi-slide'));
+    const column = viewport.closest<HTMLElement>('.testi-col');
+    const prev = column?.querySelector<HTMLButtonElement>('[data-review-prev]');
+    const next = column?.querySelector<HTMLButtonElement>('[data-review-next]');
+    const count = column?.querySelector<HTMLElement>('.testi-count');
 
-  if (dataEl && tSwap && tLabel && tQuote && tCite && prev && next) {
-    const T = JSON.parse(dataEl.textContent || '[]');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let ti = 0;
+    if (!track || !prev || !next || !count || slides.length < 2) return;
 
-    function renderT() {
-      tSwap!.classList.add('out');
-      setTimeout(
-        () => {
-          tLabel!.textContent = T[ti].label;
-          tQuote!.textContent = T[ti].quote;
-          tCite!.textContent = T[ti].cite;
-          tSwap!.classList.remove('out');
-        },
-        reduceMotion ? 0 : 340
-      );
-    }
+    let index = 0;
 
-    prev.addEventListener('click', () => {
-      ti = (ti - 1 + T.length) % T.length;
-      renderT();
-    });
-    next.addEventListener('click', () => {
-      ti = (ti + 1) % T.length;
-      renderT();
-    });
-  }
+    const showReview = (nextIndex: number) => {
+      index = (nextIndex + slides.length) % slides.length;
+      track.style.transform = `translateX(-${index * 100}%)`;
+      slides.forEach((slide, slideIndex) => {
+        slide.setAttribute('aria-hidden', String(slideIndex !== index));
+      });
+      count.textContent = `${index + 1} / ${slides.length}`;
+    };
+
+    prev.addEventListener('click', () => showReview(index - 1));
+    next.addEventListener('click', () => showReview(index + 1));
+  });
 </script>
