@@ -32,7 +32,15 @@ const items = testimonials.map((t) => ({
             items.map((item, index) => (
               <article class="testi-slide" aria-hidden={index === 0 ? 'false' : 'true'}>
                 <span class="caps testi-label">{item.label}</span>
-                <p class="testi-quote">{item.quote}</p>
+                <div class="testi-quote">
+                  {
+                    item.quote
+                      .split(/\n+/)
+                      .map((paragraph) => paragraph.trim())
+                      .filter(Boolean)
+                      .map((paragraph) => <p>{paragraph}</p>)
+                  }
+                </div>
                 <span class="caps testi-cite">{item.cite}</span>
               </article>
             ))
