@@ -79,6 +79,10 @@ const items = testimonials.map((t) => ({
 
     let index = 0;
 
+    const syncViewportHeight = () => {
+      viewport.style.height = `${slides[index].offsetHeight}px`;
+    };
+
     const showReview = (nextIndex: number) => {
       index = (nextIndex + slides.length) % slides.length;
       track.style.transform = `translateX(-${index * 100}%)`;
@@ -86,7 +90,13 @@ const items = testimonials.map((t) => ({
         slide.setAttribute('aria-hidden', String(slideIndex !== index));
       });
       count.textContent = `${index + 1} / ${slides.length}`;
+      syncViewportHeight();
     };
+
+    syncViewportHeight();
+
+    const resizeObserver = new ResizeObserver(syncViewportHeight);
+    slides.forEach((slide) => resizeObserver.observe(slide));
 
     prev.addEventListener('click', () => showReview(index - 1));
     next.addEventListener('click', () => showReview(index + 1));
